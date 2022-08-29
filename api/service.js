@@ -117,7 +117,7 @@ module.exports={
             data.Address,
             data.City,
             data.State,
-            data.Zip,
+            data.Zip
 
           ],
           (error, results, fields) => {
@@ -132,13 +132,13 @@ module.exports={
       manageradditionaldata: (data, callBack) => {
         con.query(
           `insert into employee (Name, Department, Designation,Salary) 
-                    values(?,?,?,?,?)`,
+                    values(?,?,?,?)`,
           [
             
             data.Name,
             data.Department,
             data.Designation,
-            data.Salary,
+            data.Salary
 
           ],
           (error, results, fields) => {
@@ -149,5 +149,96 @@ module.exports={
               return callBack(null, results);   
           }
         );
+      },
+      salesmanadditionaldata: (data, callBack) => {
+        con.query(
+          `insert into employee (Name, Department, Designation,Salary) 
+                    values(?,?,?,?)`,
+          [
+            
+            data.Name,
+            data.Department,
+            data.Designation,
+            data.Salary
+
+          ],
+          (error, results, fields) => {
+            if (error)
+            {
+              return callBack(error);
+            }
+              return callBack(null, results);   
+          }
+        );
+      },
+      Adminsecret: (data, callBack) => {
+        con.query(
+          `insert into User_Secret (User_id, Password) 
+                    values(?,?)`,
+          [
+            data.User_id,
+            data.Password
+          ],
+          (error, results, fields) => {
+            if (error)
+            {
+              return callBack(error);
+            }
+              return callBack(null, results);   
+          }
+        );
+      // },
+      // managersecret: (data, callBack) => {
+      //   con.query(
+      //     `insert into User_Secret (User_id, Password) 
+      //               values(?,?)`,
+      //     [
+      //       data.User_id,
+      //       data.Password
+      //     ],
+      //     (error, results, fields) => {
+      //       if (error)
+      //       {
+      //         return callBack(error);
+      //       }
+      //         return callBack(null, results);   
+      //     }
+      //   );
+      // },
+      // salesmansecret: (data, callBack) => {
+      //   con.query(
+      //     `insert into User_Secret (User_id, Password) 
+      //               values(?,?)`,
+      //     [
+      //       data.User_id,
+      //       data.Password
+      //     ],
+      //     (error, results, fields) => {
+      //       if (error)
+      //       {
+      //         return callBack(error);
+      //       }
+      //         return callBack(null, results);   
+      //     }
+      //   );
+      // },
+      // Customersecret: (data, callBack) => {
+      //   con.query(
+      //     `insert into User_Secret (User_id, Password) 
+      //               values(?,?)`,
+      //     [
+      //       data.User_id,
+      //       data.Password
+      //     ],
+      //     (error, results, fields) => {
+      //       if (error)
+      //       {
+      //         return callBack(error);
+      //       }
+      //         return callBack(null, results);   
+      //     }
+      //   );
       }
+      
+
 }

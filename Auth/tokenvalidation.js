@@ -66,6 +66,28 @@ module.exports = {
         message: "Access Denied! Unauthorized User"
       });
     }
+  },
+  salesmanlogintoken: (req, res, next) => {
+    let token = req.get("authorization");
+    if (token) {
+      token = token.slice(7);
+      jwt.verify(token, "sp31236", (err, decoded) => {
+        if (err) {
+          return res.json({
+            success: 0,
+            message: "Invalid Token..."
+          });
+        } else {
+          req.decoded = decoded;
+          next();
+        }
+      });
+    } else {
+      return res.json({
+        success: 0,
+        message: "Access Denied! Unauthorized User"
+      });
+    }
   }
 
 };

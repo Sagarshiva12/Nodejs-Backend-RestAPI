@@ -1,7 +1,7 @@
 const {Usersignup,getUserByUserID,createmanagerUser,createsalesmanUser,managercreatesalesmanUser
-,Customersignup,insertcustomerdata,manageradditionaldata}=require("./service")
+,Customersignup,insertcustomerdata,manageradditionaldata,salesmanadditionaldata,Adminsecret}=require("./service")
 
-const { compare } = require("bcrypt");
+const { genSaltSync, hashSync,compare } = require("bcrypt");
 const { sign } = require("jsonwebtoken");
 
 module.exports = {
@@ -185,6 +185,67 @@ Usersignup: (req, res) => {
   manageradditionaldata: (req, res) => {
     const data = req.body;
     manageradditionaldata(data, (err, results) => {
+      if (err)
+       {
+        console.log(err)
+        return res.status(500).json({
+          success: 0,
+          message: "Database connection errror"
+        });
+       }
+       return res.status(200).json({
+          success: 1,
+          data: results
+        });
+    });
+  },
+  salesmanadditionaldata: (req, res) => {
+    const data = req.body;
+    salesmanadditionaldata(data, (err, results) => {
+      if (err)
+       {
+        console.log(err)
+        return res.status(500).json({
+          success: 0,
+          message: "Database connection errror"
+        });
+       }
+       return res.status(200).json({
+          success: 1,
+          data: results
+        });
+    });
+  },
+  Salesmanlogin: (req, res) => {
+    const body = req.body;
+    getUserByUserID(body.User_ID, (err, results) => {
+      if (err) {
+        console.log(err);
+      }
+      if (!results) {
+        return res.json({
+          success: 0,
+          data: "Invalid UserID or Username"
+        });
+      }
+      const result = compare(body.Username, results.Username);
+      if (result) {
+        const jsontoken = sign({ result: results }, "sp31236", {
+          expiresIn: "1h"
+        });
+        return res.json({
+          success: 1,
+          message: "Salesman login successfully",
+          token: jsontoken
+        });
+      } 
+    });
+  },
+  Adminsecret: (req, res) => {
+    const body = req.body;
+    const salt = genSaltSync(10);
+    body.password = hashSync(body.password, salt);
+    Adminsecret(body, (err, results) => {
       if (err)
        {
         console.log(err)
