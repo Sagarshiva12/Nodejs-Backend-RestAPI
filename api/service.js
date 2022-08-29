@@ -173,6 +173,23 @@ module.exports={
       },
       Adminsecret: (data, callBack) => {
         con.query(
+          `insert into User_Secret (User_ID, Password) 
+                    values(?,?)`,
+          [
+            data.User_ID,
+            data.Password
+          ],
+          (error, results, fields) => {
+            if (error)
+            {
+              return callBack(error);
+            }
+              return callBack(null, results);   
+          }
+        );
+      },
+      managersecret: (data, callBack) => {
+        con.query(
           `insert into User_Secret (User_id, Password) 
                     values(?,?)`,
           [
@@ -187,57 +204,40 @@ module.exports={
               return callBack(null, results);   
           }
         );
-      // },
-      // managersecret: (data, callBack) => {
-      //   con.query(
-      //     `insert into User_Secret (User_id, Password) 
-      //               values(?,?)`,
-      //     [
-      //       data.User_id,
-      //       data.Password
-      //     ],
-      //     (error, results, fields) => {
-      //       if (error)
-      //       {
-      //         return callBack(error);
-      //       }
-      //         return callBack(null, results);   
-      //     }
-      //   );
-      // },
-      // salesmansecret: (data, callBack) => {
-      //   con.query(
-      //     `insert into User_Secret (User_id, Password) 
-      //               values(?,?)`,
-      //     [
-      //       data.User_id,
-      //       data.Password
-      //     ],
-      //     (error, results, fields) => {
-      //       if (error)
-      //       {
-      //         return callBack(error);
-      //       }
-      //         return callBack(null, results);   
-      //     }
-      //   );
-      // },
-      // Customersecret: (data, callBack) => {
-      //   con.query(
-      //     `insert into User_Secret (User_id, Password) 
-      //               values(?,?)`,
-      //     [
-      //       data.User_id,
-      //       data.Password
-      //     ],
-      //     (error, results, fields) => {
-      //       if (error)
-      //       {
-      //         return callBack(error);
-      //       }
-      //         return callBack(null, results);   
-      //     }
-      //   );
+      },
+      salesmansecret: (data, callBack) => {
+        con.query(
+          `insert into User_Secret (User_id, Password) 
+                    values(?,?)`,
+          [
+            data.User_id,
+            data.Password
+          ],
+          (error, results, fields) => {
+            if (error)
+            {
+              return callBack(error);
+            }
+              return callBack(null, results);   
+          }
+        );
+      },
+      Customersecret: (data, callBack) => {
+        con.query(
+          `insert into User_Secret (User_id, Password) 
+                    values(?,?)`,
+          [
+            data.User_id,
+            data.Password
+          ],
+          (error, results, fields) => {
+            if (error)
+            {
+              return callBack(error);
+            }
+              return callBack(null, results);   
+          }
+        );
       }
       
 
