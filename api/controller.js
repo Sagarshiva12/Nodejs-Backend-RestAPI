@@ -1,5 +1,5 @@
 const {Usersignup,getUserByUserID,createmanagerUser,createsalesmanUser,managercreatesalesmanUser
-,Customersignup,insertcustomerdata,manageradditionaldata,salesmanadditionaldata,Adminsecret}=require("./service")
+,Customersignup,insertcustomerdata,manageradditionaldata,salesmanadditionaldata,Adminsecret,managersecret,salesmansecret,Customersecret}=require("./service")
 
 const { genSaltSync, hashSync,compare } = require("bcrypt");
 const { sign } = require("jsonwebtoken");
@@ -243,9 +243,58 @@ Usersignup: (req, res) => {
   },
   Adminsecret: (req, res) => {
     const body = req.body;
-    const salt = genSaltSync(10);
-    body.password = hashSync(body.password, salt);
     Adminsecret(body, (err, results) => {
+      if (err)
+       {
+        console.log(err)
+        return res.status(500).json({
+          success: 0,
+          message: "Database connection errror"
+        });
+       }
+       return res.status(200).json({
+          success: 1,
+          data: results
+        });
+    });
+  },
+  managersecret: (req, res) => {
+    const body = req.body;
+    managersecret(body, (err, results) => {
+      if (err)
+       {
+        console.log(err)
+        return res.status(500).json({
+          success: 0,
+          message: "Database connection errror"
+        });
+       }
+       return res.status(200).json({
+          success: 1,
+          data: results
+        });
+    });
+  },
+  salesmansecret: (req, res) => {
+    const body = req.body;
+    salesmansecret(body, (err, results) => {
+      if (err)
+       {
+        console.log(err)
+        return res.status(500).json({
+          success: 0,
+          message: "Database connection errror"
+        });
+       }
+       return res.status(200).json({
+          success: 1,
+          data: results
+        });
+    });
+  },
+  Customersecret: (req, res) => {
+    const body = req.body;
+    Customersecret(body, (err, results) => {
       if (err)
        {
         console.log(err)
@@ -261,4 +310,4 @@ Usersignup: (req, res) => {
     });
   }
   
-}
+}  

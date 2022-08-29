@@ -4,8 +4,7 @@ const { checkadminToken,checkmanagerToken,Customerlogintoken,salesmanlogintoken 
 const {emptycheck,Adminenter,Customerenter}=require("../middleware/verify")
 
 const {Usersignup,adminlogin,createmanagerUser,createsalesmanUser,managerlogin,managercreatesalesmanUser,Customersignup,Customerlogin
-    ,insertcustomerdata,manageradditionaldata,Salesmanlogin,salesmanadditionaldata,Adminsecret}=require("./controller")
-
+    ,insertcustomerdata,manageradditionaldata,Salesmanlogin,salesmanadditionaldata,Adminsecret,managersecret,salesmansecret,Customersecret}=require("./controller")
 
 // user signup as a admin 
 router.post("/user",emptycheck,Adminenter,Usersignup)
@@ -30,6 +29,9 @@ router.post("/user/createsalesmanUser",checkadminToken,createsalesmanUser)
 //admin after creating manager user , manager will login get a jwt token
 router.post("/user/managerlogin",managerlogin)
 
+//with adminlogin jwt token manager can store his data in usersecret table
+router.post("/user/managersecret",checkmanagerToken,managersecret)
+
 
 //with jwt token of manager login ,manager can create sales man user
 router.post("/user/managercreatesalesmanUser",checkmanagerToken,managercreatesalesmanUser)
@@ -51,6 +53,10 @@ router.post("/user/Customerlogin",Customerlogin)
 router.post("/user/insertcustomerdata",Customerlogintoken,insertcustomerdata)
 
 
+//with  jwt token of customerlogin ,customer can store his data in usersecret table
+router.post("/user/Customersecret",Customerlogintoken,Customersecret)
+
+
 //salesman login if sales man user exist in usertable,then it will create a jwt token
 router.post("/user/Salesmanlogin",Salesmanlogin)
 
@@ -59,6 +65,8 @@ router.post("/user/Salesmanlogin",Salesmanlogin)
 router.post("/user/Salesmanadditionaldata",salesmanlogintoken,salesmanadditionaldata)
 
 
+//with  jwt token salesman login ,customer can store his data in usersecret table
+router.post("/user/salesmansecret",salesmanlogintoken,salesmansecret)
 
 
 module.exports=router;
