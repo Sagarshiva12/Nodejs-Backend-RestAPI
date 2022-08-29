@@ -1,9 +1,9 @@
 const {Usersignup,getUserByUserID,createmanagerUser,createsalesmanUser,managercreatesalesmanUser
-,Customersignup,insertcustomerdata,manageradditionaldata,salesmanadditionaldata,Adminsecret,managersecret,salesmansecret,Customersecret}=require("./service")
+,Customersignup,insertcustomerdata,manageradditionaldata,salesmanadditionaldata,Adminsecret,managersecret,salesmansecret
+,Customersecret,getUserByUserIDfromusersecret,deleteoldpassword,createnewpassword}=require("./service")
 
 const { genSaltSync, hashSync,compare } = require("bcrypt");
 const { sign } = require("jsonwebtoken");
-
 module.exports = {
 Usersignup: (req, res) => {
     const data = req.body;
@@ -307,7 +307,66 @@ Usersignup: (req, res) => {
           success: 1,
           data: results
         });
-    });
-  }
-  
+    });   
+},
+resetpassword: (req, res) => {
+  const body = req.body;
+  getUserByUserIDfromusersecret(body.User_ID, (err, results) => {
+    if (err) {
+      console.log(err);
+    }
+    if (!results) {
+      return res.json({
+        success: 0,
+        data: "Invalid UserID or Username"
+      });
+    }
+    const result = compare(body.User_ID, results.User_ID);
+    if (result) {
+      const jsontoken = sign({ result: results }, "sp31237", {
+        expiresIn: "1h"
+      });
+      return res.json({
+        success: 1,
+        message: "password reset token created successfully",
+        token: jsontoken
+      });
+    } 
+  });
+},
+deleteoldpassword: (req, res) => {
+  const User_ID = req.params.User_ID;
+  deleteoldpassword(User_ID, (err, results) => {
+    if (err)
+     {
+      console.log(err)
+      return res.status(500).json({
+        success: 0,
+        message: "Database connection errror"
+      });
+     }
+    //  return res.status(200).json({
+    //     success: 1,
+    //     message: "Old password deleted successfully"
+    //   });
+    next();
+  });   
+},
+createnewpassword: (req, res) => {
+  const body = req.body;
+  createnewpassword(body, (err, results) => {
+    if (err)
+     {
+      console.log(err)
+      return res.status(500).json({
+        success: 0,
+        message: "Database connection errror"
+      });
+     }
+     return res.status(200).json({
+        success: 1,
+        Message: "Password reset successfully"
+      });
+  });   
+}
 }  

@@ -1,10 +1,11 @@
 const router = require("express").Router();
-const { checkadminToken,checkmanagerToken,Customerlogintoken,salesmanlogintoken } = require("../Auth/tokenvalidation");
+const { checkadminToken,checkmanagerToken,Customerlogintoken,salesmanlogintoken,resetpasswordtoken} = require("../Auth/tokenvalidation");
 
 const {emptycheck,Adminenter,Customerenter}=require("../middleware/verify")
 
 const {Usersignup,adminlogin,createmanagerUser,createsalesmanUser,managerlogin,managercreatesalesmanUser,Customersignup,Customerlogin
-    ,insertcustomerdata,manageradditionaldata,Salesmanlogin,salesmanadditionaldata,Adminsecret,managersecret,salesmansecret,Customersecret}=require("./controller")
+    ,insertcustomerdata,manageradditionaldata,Salesmanlogin,salesmanadditionaldata,Adminsecret,managersecret,salesmansecret,Customersecret
+,resetpassword,deleteoldpassword,createnewpassword}=require("./controller")
 
 // user signup as a admin 
 router.post("/user",emptycheck,Adminenter,Usersignup)
@@ -67,6 +68,14 @@ router.post("/user/Salesmanadditionaldata",salesmanlogintoken,salesmanadditional
 
 //with  jwt token salesman login ,customer can store his data in usersecret table
 router.post("/user/salesmansecret",salesmanlogintoken,salesmansecret)
+
+
+//by going to this route i can check that userid is present or not,if present then it will create a jwt token
+router.post("/user/createresetpasswordtoken",resetpassword)
+
+
+//by jwt token of resetpassword ,i can update old password of perticular userid in usersecret table
+router.put("/user/createnewpassword",resetpasswordtoken,createnewpassword)
 
 
 module.exports=router;

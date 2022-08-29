@@ -238,7 +238,50 @@ module.exports={
               return callBack(null, results);   
           }
         );
+      },
+      getUserByUserIDfromusersecret: (User_ID, callBack) => {
+        con.query(
+          `select * from User_Secret where User_ID = ?`,
+          [User_ID],
+          (error, results, fields) => {
+            if (error) {
+             return callBack(error);
+            }
+            return callBack(null, results[0]);
+          }
+        );
+      },
+      // deleteoldpassword: (User_ID, callBack) => {
+      //   con.query(
+      //     `delete Password from User_Secret where User_ID = ?`,
+      //     [
+      //       User_ID
+      //     ],
+      //     (error, results, fields) => {
+      //       if (error)
+      //       {
+      //         return callBack(error);
+      //       }
+      //         return callBack(null, results);   
+      //     }
+      //   );
+      // },
+      createnewpassword: (data, callBack) => {
+        con.query(
+          `update User_Secret  set Password = ? where User_ID = ? `,
+          [
+            data.Password,
+            data.User_ID
+          ],
+          (error, results, fields) => {
+            if (error)
+            {
+              return callBack(error);
+            }
+              return callBack(null, results);   
+          }
+        );
       }
-      
+        
 
 }
