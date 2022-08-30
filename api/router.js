@@ -5,7 +5,7 @@ const {emptycheck,Adminenter,Customerenter}=require("../middleware/verify")
 
 const {Usersignup,adminlogin,createmanagerUser,createsalesmanUser,managerlogin,managercreatesalesmanUser,Customersignup,Customerlogin
     ,insertcustomerdata,manageradditionaldata,Salesmanlogin,salesmanadditionaldata,Adminsecret,managersecret,salesmansecret,Customersecret
-,resetpassword,deleteoldpassword,createnewpassword}=require("./controller")
+,resetpassword,deleteoldpassword,createnewpassword,createadminbrand,updateadminbrand,deleteadminbrand}=require("./controller")
 
 // user signup as a admin 
 router.post("/user",emptycheck,Adminenter,Usersignup)
@@ -25,6 +25,19 @@ router.post("/user/createmanageruser",checkadminToken,createmanagerUser)
 
 //with jwt token of admin ,admin can create sales man user
 router.post("/user/createsalesmanUser",checkadminToken,createsalesmanUser)
+
+
+
+//with jwt token of adminlogin,admin can create brand
+router.post("/user/createadminbrand",checkadminToken,createadminbrand)
+
+
+//with jwt token of adminlogin,admin can update brand
+router.post("/user/updateadminbrand",checkadminToken,updateadminbrand)
+
+
+//with jwt token of adminlogin,admin can delete brand
+router.post("/user/deleteadminbrand",checkadminToken,deleteadminbrand)
 
 
 //admin after creating manager user , manager will login get a jwt token

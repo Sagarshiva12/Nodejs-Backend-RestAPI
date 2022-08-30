@@ -281,7 +281,52 @@ module.exports={
               return callBack(null, results);   
           }
         );
+      },
+      createadminbrand: (data, callBack) => {
+        con.query(
+          `insert into Brand (Brand_name, brand_logo) 
+                    values(?,?)`,
+          [
+            data.Brand_name,
+            data.brand_logo
+          ],
+          (error, results, fields) => {
+            if (error) {
+              return callBack(error);
+            }
+              return callBack(null, results);   
+          }
+        );
+      } ,
+      updateadminbrand: (data, callBack) => {
+        con.query(
+          `update Brand set Brand_name=?, brand_logo=? where id = ?`,
+          [
+            data.Brand_name,
+            data.brand_logo,
+            data.id
+          ],
+          (error, results, fields) => {
+            if (error) {
+              callBack(error);
+            }
+            return callBack(null, results[0]);
+          }
+        );
+      },
+      deleteadminbrand: (id, callBack) => {
+        con.query(
+          `delete from Brand where id = ?`,
+          [id],
+          (error, results, fields) => {
+            if (error) {
+              callBack(error);
+            }
+            return callBack(null, results[0]);
+          }
+        );
       }
+     
         
 
 }

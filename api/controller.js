@@ -1,6 +1,6 @@
 const {Usersignup,getUserByUserID,createmanagerUser,createsalesmanUser,managercreatesalesmanUser
 ,Customersignup,insertcustomerdata,manageradditionaldata,salesmanadditionaldata,Adminsecret,managersecret,salesmansecret
-,Customersecret,getUserByUserIDfromusersecret,deleteoldpassword,createnewpassword}=require("./service")
+,Customersecret,getUserByUserIDfromusersecret,deleteoldpassword,createnewpassword,createadminbrand,updateadminbrand,deleteadminbrand}=require("./service")
 
 const { genSaltSync, hashSync,compare } = require("bcrypt");
 const { sign } = require("jsonwebtoken");
@@ -368,5 +368,64 @@ createnewpassword: (req, res) => {
         Message: "Password reset successfully"
       });
   });   
+},
+createadminbrand: (req, res) => {
+  const body = req.body;
+  createadminbrand(body, (err, results) => {
+    if (err)
+     {
+      console.log(err)
+      return res.status(500).json({
+        success: 0,
+        message: "Database connection errror"
+      });
+     }
+     return res.status(200).json({
+        success: 1,
+        message: "Admin brand created successfully"
+      });
+  }); 
+},
+updateadminbrand: (req, res) => {
+  const body = req.body;
+  updateadminbrand(body, (err, results) => {
+    if (err)
+     {
+      console.log(err);
+      return false;
+    }
+    if(!results)
+    {
+      return res.json({
+        success: 0,
+        message: "Admin not found "
+      })
+    }
+
+    return res.json({
+      success: 1,
+      message: "Admin brand updated successfully "
+    })
+  });
+},
+deleteadminbrand: (req, res) => {
+  const id = req.params.id;
+  deleteadminbrand(id, (err, results) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    if (!results) {
+      return res.json({
+        success: 0,
+        message: "Record Not Found"
+      });
+    }
+    return res.json({
+      success: 1,
+      message: "Admin brand deleted successfully"
+    });
+  });
 }
+
 }  
